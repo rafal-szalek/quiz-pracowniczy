@@ -4,7 +4,7 @@
 
 Aplikacja ma:
 - ankietę mobilną,
-- 3 grupy wyników: Lider, Słuchacz, Przytakiwacz,
+- 4 grupy wyników: A,B,C,D
 - rozdawanie 5 punktów na pytanie,
 - stronę z podziękowaniem i wynikiem,
 - wysyłkę maila do administratora przez Resend.
