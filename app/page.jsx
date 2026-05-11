@@ -517,7 +517,7 @@ export default function Page() {
                   : "bg-pink-500 text-white"
               }`}
             >
-              {remaining === 0 ? "Gotowe" : `Rozdaj jeszcze ${remaining}`}
+              {remaining === 0 ? "Rozdano" : `Rozdaj jeszcze ${remaining}`}
             </div>
           </div>
 
