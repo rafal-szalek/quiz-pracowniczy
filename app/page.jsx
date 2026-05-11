@@ -15,10 +15,10 @@ function getInitialAnswers() {
 
 function calculateResults(userAnswers) {
   const scores = {
-    leader: 0,
-    listener: 0,
-    supporter: 0,
-    nonLeader: 0,
+    A: 0,
+    B: 0,
+    C: 0,
+    D: 0,
   };
 
   QUESTIONS.forEach((question) => {
@@ -31,9 +31,9 @@ function calculateResults(userAnswers) {
   });
 
   const leadershipScores = {
-    leader: scores.leader,
-    listener: scores.listener,
-    supporter: scores.supporter,
+    A: scores.A,
+    B: scores.B,
+    C: scores.C,
   };
 
   const winnerKey = Object.entries(leadershipScores).sort(
@@ -44,7 +44,7 @@ function calculateResults(userAnswers) {
     scores,
     leadershipScores,
     winnerKey,
-    winnerLabel: GROUPS[winnerKey],
+    winnerLabel: winnerKey,
   };
 }
 
@@ -52,18 +52,19 @@ function getDiagramSvg(result) {
   const scores = result.leadershipScores || result.scores;
 
   const maxScore = Math.max(
-    scores.leader || 0,
-    scores.listener || 0,
-    scores.supporter || 0,
+    scores.A || 0,
+    scores.B || 0,
+    scores.C || 0,
+    scores.D || 0,
     1,
   );
 
   const maxRadius = 90;
   const scale = maxRadius / maxScore;
 
-  const leaderRadius = Math.max((scores.leader || 0) * scale, 18);
-  const listenerRadius = Math.max((scores.listener || 0) * scale, 18);
-  const supporterRadius = Math.max((scores.supporter || 0) * scale, 18);
+  const leaderRadius = Math.max((scores.A || 0) * scale, 18);
+  const listenerRadius = Math.max((scores.B || 0) * scale, 18);
+  const supporterRadius = Math.max((scores.C || 0) * scale, 18);
 
   return `
     <svg width="500" height="420" viewBox="0 0 500 420" xmlns="http://www.w3.org/2000/svg">
@@ -86,19 +87,14 @@ function getDiagramSvg(result) {
 }
 
 function LeadershipVennDiagram({ scores }) {
-  const maxScore = Math.max(
-    scores.leader || 0,
-    scores.listener || 0,
-    scores.supporter || 0,
-    1,
-  );
+  const maxScore = Math.max(scores.A || 0, scores.B || 0, scores.C || 0, 1);
 
   const maxRadius = 90;
   const scale = maxRadius / maxScore;
 
-  const leaderRadius = Math.max((scores.leader || 0) * scale, 18);
-  const listenerRadius = Math.max((scores.listener || 0) * scale, 18);
-  const supporterRadius = Math.max((scores.supporter || 0) * scale, 18);
+  const leaderRadius = Math.max((scores.A || 0) * scale, 18);
+  const listenerRadius = Math.max((scores.B || 0) * scale, 18);
+  const supporterRadius = Math.max((scores.C || 0) * scale, 18);
 
   return (
     <div className="mt-8 rounded-[2rem] bg-white p-6 text-slate-950 shadow-xl ring-1 ring-slate-100">
@@ -173,31 +169,40 @@ function LeadershipVennDiagram({ scores }) {
         </svg>
       </div>
 
-      <div className="mt-6 grid gap-3 sm:grid-cols-3">
+      <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
         <div className="rounded-2xl bg-rose-50 p-4 text-center ring-1 ring-rose-100">
           <p className="text-xs font-black uppercase tracking-wide text-rose-500">
-            A — Lider
+            A
           </p>
           <p className="mt-2 text-3xl font-black text-slate-950">
-            {scores.leader || 0}
+            {scores.A || 0}
           </p>
         </div>
 
         <div className="rounded-2xl bg-blue-50 p-4 text-center ring-1 ring-blue-100">
           <p className="text-xs font-black uppercase tracking-wide text-blue-500">
-            B — Słuchacz
+            B
           </p>
           <p className="mt-2 text-3xl font-black text-slate-950">
-            {scores.listener || 0}
+            {scores.B || 0}
           </p>
         </div>
 
         <div className="rounded-2xl bg-emerald-50 p-4 text-center ring-1 ring-emerald-100">
           <p className="text-xs font-black uppercase tracking-wide text-emerald-500">
-            C — Przytakiwacz
+            C
           </p>
           <p className="mt-2 text-3xl font-black text-slate-950">
-            {scores.supporter || 0}
+            {scores.C || 0}
+          </p>
+        </div>
+        <div className="rounded-2xl bg-slate-100 p-4 text-center ring-1 ring-slate-200">
+          <p className="text-xs font-black uppercase tracking-wide text-slate-500">
+            D
+          </p>
+
+          <p className="mt-2 text-3xl font-black text-slate-950">
+            {scores.D || 0}
           </p>
         </div>
       </div>
@@ -365,7 +370,7 @@ export default function Page() {
             </p>
           </div>
 
-          <LeadershipVennDiagram scores={result.leadershipScores} />
+          <LeadershipVennDiagram scores={result.scores} />
         </section>
       </main>
     );
@@ -378,7 +383,7 @@ export default function Page() {
           <div className="flex items-center justify-between gap-4">
             <div>
               <p className="text-xs font-black uppercase tracking-[0.28em] text-pink-200">
-                Test stylu lidera
+                Kwestionariusz profilu przywództwa osobistego
               </p>
 
               <h1 className="mt-3 text-2xl font-black tracking-tight sm:text-4xl">

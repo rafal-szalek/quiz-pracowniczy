@@ -3,10 +3,10 @@ import { Resend } from "resend";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 const GROUP_LABELS = {
-  leader: "Lider",
-  listener: "Słuchacz",
-  supporter: "Przytakiwacz",
-  nonLeader: "Brak podejścia liderskiego",
+  A: "A",
+  B: "B",
+  C: "C",
+  D: "D",
 };
 
 export async function POST(request) {
@@ -37,10 +37,10 @@ export async function POST(request) {
 
         <h2>Punkty</h2>
         <ul>
-          <li>A — Lider: ${Number(result.scores?.leader || 0)}</li>
-          <li>B — Słuchacz: ${Number(result.scores?.listener || 0)}</li>
-          <li>C — Przytakiwacz: ${Number(result.scores?.supporter || 0)}</li>
-          <li>D — Brak podejścia liderskiego: ${Number(result.scores?.nonLeader || 0)}</li>
+          <li>A: ${Number(result.scores?.A || 0)}</li>
+          <li>B: ${Number(result.scores?.B || 0)}</li>
+          <li>C: ${Number(result.scores?.C || 0)}</li>
+          <li>D: ${Number(result.scores?.D || 0)}</li>
         </ul>
 
         ${
