@@ -239,6 +239,9 @@ export default function Page() {
 
     setIsLoaded(true);
   }, []);
+  useEffect(() => {
+    scrollToTop();
+  }, [currentQuestionIndex, status]);
 
   useEffect(() => {
     if (!isLoaded || status === "done") return;
@@ -254,7 +257,8 @@ export default function Page() {
   }, [name, currentQuestionIndex, responses, status, isLoaded]);
 
   const currentQuestion = QUESTIONS[currentQuestionIndex];
-  const currentResponses = responses[currentQuestion.id];
+  const currentResponses =
+    responses[currentQuestion.id] || getInitialAnswers()[currentQuestion.id];
 
   const totalUsed = Object.values(currentResponses).reduce(
     (sum, value) => sum + value,
@@ -268,6 +272,12 @@ export default function Page() {
   );
 
   const result = useMemo(() => calculateResults(responses), [responses]);
+  function scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }
 
   function updatePoints(answerId, direction) {
     const currentValue = currentResponses[answerId];
@@ -291,7 +301,7 @@ export default function Page() {
 
     if (currentQuestionIndex < QUESTIONS.length - 1) {
       setCurrentQuestionIndex((prev) => prev + 1);
-      window.scrollTo({ top: 0, behavior: "smooth" });
+
       return;
     }
 
@@ -300,7 +310,6 @@ export default function Page() {
 
   function goBack() {
     setCurrentQuestionIndex((prev) => Math.max(0, prev - 1));
-    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   async function submitSurvey() {
