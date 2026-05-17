@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useMemo, useState } from "react";
 import { GROUPS, GROUP_DESCRIPTIONS, MAX_POINTS, QUESTIONS } from "./questions";
 const STORAGE_KEY = "leadership-quiz-progress";
@@ -12,7 +11,7 @@ function getInitialAnswers() {
     return acc;
   }, {});
 }
-
+const APP_DISABLED = true; // Set to true to disable the form
 function calculateResults(userAnswers) {
   const scores = {
     A: 0,
@@ -217,6 +216,19 @@ export default function Page() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [status, setStatus] = useState("editing");
   const [error, setError] = useState("");
+  if (APP_DISABLED) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-slate-950 p-6 text-white">
+        <div className="max-w-xl rounded-[2rem] bg-white/10 p-10 text-center backdrop-blur">
+          <h1 className="text-4xl font-black">Ankieta chwilowo niedostępna</h1>
+
+          <p className="mt-4 text-white/70">
+            Formularz został tymczasowo wyłączony.
+          </p>
+        </div>
+      </main>
+    );
+  }
 
   useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
